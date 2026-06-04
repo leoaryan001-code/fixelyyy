@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixely – Learn. Grow. Earn.</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#404E3B;
+  --ink2:#404E3B;
+  --muted:#6C8480;
+  --bg:#F4F5F2;
+  --surface:#ffffff;
+  --border:rgba(64,78,59,0.13);
+  --blue:#404E3B;
+  --blue-light:#BAC8B1;
+  --orange:#6C8480;
+  --orange-light:#D4DEDD;
+  --green:#7B9669;
+  --green-light:#D6E0CF;
+  --purple:#6C8480;
+  --purple-light:#D4DEDD;
+  --pink:#7B9669;
+  --pink-light:#E6E6E6;
+  --yellow:#7B9669;
+  --yellow-light:#BAC8B1;
+  --teal:#404E3B;
+  --teal-light:#BAC8B1;
+  --r:18px;--r-sm:12px;--r-xs:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+
+/* ─── OPENING ANIMATION OVERLAY ─── */
+#intro-overlay{
+  position:fixed;inset:0;z-index:99999;
+  background:#1C2419;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  animation:fadeOutOverlay 0.6s ease 2.8s forwards;
+  pointer-events:none;
+}
+#intro-overlay.hidden{display:none}
+
+@keyframes fadeOutOverlay{
+  0%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.04);pointer-events:none}
+}
+
+.intro-logo{
+  display:flex;align-items:center;gap:16px;
+  animation:logoPop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+}
+@keyframes logoPop{
+  0%{opacity:0;transform:scale(0.5) translateY(20px)}
+  100%{opacity:1;transform:scale(1) translateY(0)}
+}
+
+.intro-badge{
+  width:64px;height:64px;border-radius:18px;
+  background:linear-gradient(135deg,#7B9669,#404E3B);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:2rem;color:#fff;
+  box-shadow:0 0 40px rgba(123,150,105,0.6);
+}
+.intro-wordmark{
+  font-family:'Fraunces',serif;font-weight:900;font-size:3.5rem;color:#fff;letter-spacing:-2px;
+}
+
+.intro-tagline{
+  font-size:0.9rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);margin-top:1.2rem;
+  animation:fadeUp 0.6s ease 1s both;
+}
+.intro-words{
+  display:flex;gap:10px;margin-top:0.5rem;
+  animation:fadeUp 0.6s ease 1.15s both;
+}
+.intro-word{
+  padding:6px 18px;border-radius:100px;
+  font-size:0.82rem;font-weight:700;letter-spacing:0.5px;
+}
+.intro-word.w1{background:rgba(123,150,105,0.2);border:1px solid rgba(123,150,105,0.4);color:#BAC8B1}
+.intro-word.w2{background:rgba(108,132,128,0.2);border:1px solid rgba(108,132,128,0.4);color:#BAC8B1}
+.intro-word.w3{background:rgba(64,78,59,0.35);border:1px solid rgba(186,200,177,0.35);color:#BAC8B1}
+
+.intro-progress{
+  width:120px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:2.5rem;overflow:hidden;
+  animation:fadeUp 0.4s ease 1.4s both;
+}
+.intro-bar{
+  height:100%;border-radius:2px;background:linear-gradient(90deg,#7B9669,#BAC8B1);
+  animation:progressFill 1.8s ease 1.4s both;
+}
+@keyframes progressFill{0%{width:0}100%{width:100%}}
+
+.intro-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{
+  position:absolute;border-radius:50%;
+  animation:particleDrift linear infinite;
+  opacity:0;
+}
+@keyframes particleDrift{
+  0%{opacity:0;transform:translateY(100vh) scale(0)}
+  10%{opacity:0.6}
+  90%{opacity:0.3}
+  100%{opacity:0;transform:translateY(-20px) scale(1)}
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:0 2rem;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(244,245,242,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow 0.3s;
+}
+nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,0.08)}
+.logo{font-family:'Fraunces',serif;font-weight:900;font-size:1.75rem;color:var(--ink);text-decoration:none;letter-spacing:-1px;display:flex;align-items:center;gap:8px}
+.logo-badge{background:linear-gradient(135deg,#7B9669,#404E3B);width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.85rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{font-size:0.88rem;font-weight:500;color:var(--ink2);text-decoration:none;padding:7px 14px;border-radius:8px;transition:all 0.15s}
+.nav-links a:hover{background:rgba(0,0,0,0.05);color:var(--ink)}
+.nav-btns{display:flex;gap:8px;align-items:center}
+.btn-ghost-sm{background:none;border:1.5px solid var(--border);color:var(--ink);padding:8px 18px;border-radius:10px;font-size:0.86rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s}
+.btn-ghost-sm:hover{background:#404E3B;color:#fff;border-color:#404E3B}
+.btn-nav{background:#7B9669;color:#fff;padding:8px 20px;border-radius:10px;font-size:0.86rem;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s}
+.btn-nav:hover{background:#404E3B;transform:translateY(-1px)}
+.hamburger{display:none;background:none;border:none;cursor:pointer}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  background:linear-gradient(160deg,#2A3528 0%,#404E3B 40%,#354533 70%,#1C2419 100%);
+  display:flex;align-items:center;justify-content:center;
+  padding:100px 2rem 4rem;
+  position:relative;overflow:hidden;
+}
+.hero-orbs{position:absolute;inset:0;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.35}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,#7B9669,transparent);top:-100px;left:-150px;animation:drift1 8s ease-in-out infinite}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,#BAC8B1,transparent);bottom:-100px;right:-100px;animation:drift2 10s ease-in-out infinite}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,#6C8480,transparent);top:50%;left:50%;transform:translate(-50%,-50%);animation:drift3 12s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}
+@keyframes drift3{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-45%,-55%)}}
+
+.hero-grid{
+  max-width:1200px;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  align-items:center;position:relative;z-index:1;
+}
+.hero-left{}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  border-radius:100px;padding:6px 16px;margin-bottom:1.75rem;
+}
+.pill-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px #4ade80;}
+.hero-pill span{font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.9);letter-spacing:0.5px}
+.hero h1{
+  font-family:'Fraunces',serif;font-weight:900;
+  font-size:clamp(2.6rem,4.5vw,4.2rem);
+  line-height:1.08;letter-spacing:-1.5px;color:#fff;
+  margin-bottom:1.5rem;
+}
+.hero h1 em{font-style:italic;color:#86efac}
+.hero-desc{font-size:1.05rem;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:2.5rem;max-width:440px}
+
+/* Animated "Learn Grow Earn" badge row in hero */
+.lge-badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.75rem}
+.lge-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 16px;border-radius:100px;
+  font-size:0.82rem;font-weight:700;letter-spacing:0.3px;
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter:blur(6px);
+}
+.lge-badge.learn{background:rgba(123,150,105,0.25);color:#86efac}
+.lge-badge.grow{background:rgba(108,132,128,0.25);color:#7dd3fc}
+.lge-badge.earn{background:rgba(186,200,177,0.2);color:#fde68a}
+
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{
+  background:#fff;color:var(--ink);
+  padding:14px 32px;border-radius:12px;
+  font-size:1rem;font-weight:700;border:none;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;display:inline-block;
+  transition:all 0.2s;
+}
+.btn-hero:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,255,255,0.2)}
+.btn-hero-outline{
+  background:rgba(255,255,255,0.1);color:#fff;
+  padding:14px 32px;border-radius:12px;
+  font-size:1rem;font-weight:600;border:1px solid rgba(255,255,255,0.25);
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;display:inline-block;
+  transition:all 0.2s;
+}
+.btn-hero-outline:hover{background:rgba(255,255,255,0.18)}
+.hero-trust{display:flex;align-items:center;gap:12px;margin-top:2.5rem}
+.avatars{display:flex}
+.avatars img{width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);margin-left:-10px;object-fit:cover}
+.avatars img:first-child{margin-left:0}
+.trust-text{font-size:0.82rem;color:rgba(255,255,255,0.6);line-height:1.4}
+.trust-text strong{color:#fff;display:block}
+
+.hero-right{display:flex;flex-direction:column;gap:14px}
+.hero-card{
+  background:rgba(255,255,255,0.07);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.12);border-radius:var(--r);
+  overflow:hidden;transition:transform 0.3s;
+}
+.hero-card:hover{transform:translateY(-4px)}
+.hero-card-img{width:100%;height:160px;object-fit:cover;display:block}
+.hero-card-body{padding:1rem 1.25rem}
+.hero-card-tag{
+  font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;display:inline-block;margin-bottom:8px;
+}
+.tag-blue{background:rgba(186,200,177,0.3);color:#BAC8B1}
+.tag-green{background:rgba(123,150,105,0.3);color:#BAC8B1}
+.tag-orange{background:rgba(108,132,128,0.3);color:#BAC8B1}
+.hero-card h3{font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:4px}
+.hero-card p{font-size:0.78rem;color:rgba(255,255,255,0.55)}
+.hero-card-row{display:flex;gap:8px;margin-top:10px}
+.mini-stat{background:rgba(255,255,255,0.08);border-radius:8px;padding:6px 12px;text-align:center}
+.mini-stat div:first-child{font-size:0.95rem;font-weight:800;color:#fff}
+.mini-stat div:last-child{font-size:0.68rem;color:rgba(255,255,255,0.5)}
+
+/* ─── SECTION BASE ─── */
+.section{padding:6rem 2rem}
+.inner{max-width:1200px;margin:0 auto}
+.sec-label{font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.7rem}
+.sec-title{font-family:'Fraunces',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:1rem}
+.sec-sub{font-size:1rem;color:var(--muted);line-height:1.7;max-width:540px}
+
+/* ─── STUDENT MADE BANNER ─── */
+.student-made-banner{
+  background:linear-gradient(135deg,#2A3528,#354533);
+  padding:1rem 2rem;text-align:center;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.student-made-banner p{
+  color:rgba(255,255,255,0.6);font-size:0.82rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.student-made-banner span.pill-dot{width:6px;height:6px;background:#4ade80;border-radius:50%}
+
+/* ─── FEATURES ─── */
+.features-sec{background:#F4F5F2}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.feat-card{
+  border-radius:var(--r);overflow:hidden;position:relative;
+  cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;
+  text-decoration:none;color:inherit;display:block;
+}
+.feat-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,0.12)}
+.feat-img{width:100%;height:200px;object-fit:cover;display:block;transition:transform 0.5s}
+.feat-card:hover .feat-img{transform:scale(1.05)}
+.feat-body{padding:1.5rem}
+.feat-icon-wrap{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1rem;
+  transition:transform 0.3s;
+}
+.feat-card:hover .feat-icon-wrap{transform:scale(1.1)}
+.feat-title{font-weight:800;font-size:1.05rem;margin-bottom:0.4rem}
+.feat-desc{font-size:0.86rem;color:var(--muted);line-height:1.6}
+.feat-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.82rem;font-weight:700;margin-top:1rem;
+  text-decoration:none;transition:gap 0.2s;
+}
+.feat-card:hover .feat-link{gap:9px}
+
+/* ─── LEARN ─── */
+.learn-sec{background:var(--bg)}
+.learn-layout{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;margin-top:3rem}
+.subject-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.pill{
+  padding:8px 18px;border-radius:100px;font-size:0.82rem;font-weight:600;
+  border:1.5px solid var(--border);background:#fff;cursor:pointer;transition:all 0.15s;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.pill.active,.pill:hover{background:#404E3B;color:#fff;border-color:#404E3B}
+.search-row{
+  display:flex;align-items:center;gap:10px;
+  background:#fff;border:1.5px solid var(--border);border-radius:14px;
+  padding:10px 16px;margin-bottom:1.5rem;
+  transition:border-color 0.2s;
+}
+.search-row:focus-within{border-color:#7B9669}
+.search-row svg{flex-shrink:0;opacity:0.4}
+.search-row input{flex:1;border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;background:transparent;color:var(--ink)}
+.btn-primary{
+  display:inline-block;background:#7B9669;color:#fff;
+  padding:13px 30px;border-radius:12px;font-size:0.95rem;font-weight:700;
+  border:none;cursor:pointer;text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;
+  transition:all 0.2s;
+}
+.btn-primary:hover{background:#404E3B;transform:translateY(-2px);box-shadow:0 8px 24px rgba(64,78,59,0.3)}
+.btn-outline{
+  display:inline-block;background:transparent;color:var(--ink);
+  padding:13px 30px;border-radius:12px;font-size:0.95rem;font-weight:700;
+  border:2px solid var(--border);cursor:pointer;text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;
+  transition:all 0.2s;
+}
+.btn-outline:hover{background:#404E3B;color:#fff;border-color:#404E3B}
+
+.course-stack{display:flex;flex-direction:column;gap:10px}
+.course-card{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);
+  display:flex;align-items:center;gap:14px;padding:0 16px 0 0;overflow:hidden;
+  transition:all 0.2s;cursor:pointer;
+}
+.course-card:hover{border-color:#7B9669;box-shadow:0 4px 20px rgba(123,150,105,0.12);transform:translateX(4px)}
+.course-thumb-img{width:80px;height:72px;object-fit:cover;flex-shrink:0}
+.course-info{flex:1;min-width:0}
+.course-info h4{font-size:0.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.course-info p{font-size:0.75rem;color:var(--muted);margin-top:2px}
+.course-bar{height:4px;background:#eee;border-radius:4px;overflow:hidden;margin-top:6px;width:100%}
+.course-fill{height:100%;border-radius:4px}
+.course-pct{font-size:0.75rem;font-weight:700;color:var(--muted);flex-shrink:0;margin-left:auto}
+
+/* ─── TRAINING ─── */
+.training-sec{background:#fff}
+.training-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;margin-top:3rem}
+.training-card{
+  border-radius:var(--r);overflow:hidden;
+  border:1.5px solid var(--border);
+  transition:transform 0.3s,box-shadow 0.3s;cursor:pointer;
+}
+.training-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.1)}
+.training-img{width:100%;height:175px;object-fit:cover;display:block;transition:transform 0.5s}
+.training-card:hover .training-img{transform:scale(1.05)}
+.training-body{padding:1.4rem}
+.training-tags{display:flex;gap:6px;margin-bottom:0.8rem;flex-wrap:wrap}
+.training-tag{
+  font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:100px;
+  letter-spacing:0.5px;
+}
+.training-body h3{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:900;margin-bottom:0.4rem;line-height:1.2}
+.training-body p{font-size:0.83rem;color:var(--muted);line-height:1.55;margin-bottom:1rem}
+.training-meta{display:flex;gap:1rem;font-size:0.78rem;color:var(--muted);margin-bottom:1.1rem}
+.enrol-btn{
+  width:100%;padding:11px;border-radius:10px;border:none;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:700;
+  cursor:pointer;transition:all 0.15s;
+}
+.enrol-btn:hover{opacity:0.88;transform:translateY(-1px)}
+
+/* ─── MARKETPLACE ─── */
+.market-sec{background:var(--bg)}
+.market-header{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.filter-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.25rem}
+.market-card{
+  background:#fff;border-radius:var(--r);overflow:hidden;
+  border:1.5px solid var(--border);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.market-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,0.1)}
+.market-img{width:100%;height:155px;object-fit:cover;display:block;transition:transform 0.5s;background:#f0f0f0}
+.market-card:hover .market-img{transform:scale(1.04)}
+.market-body{padding:1rem 1.1rem 1.2rem}
+.cond-badge{font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:100px;display:inline-block;margin-bottom:7px;letter-spacing:0.5px}
+.cond-new{background:#D6E0CF;color:#2A3528}
+.cond-good{background:#BAC8B1;color:#2A3528}
+.cond-used{background:#E6E6E6;color:#404E3B}
+.cond-handmade{background:rgba(251,191,36,0.18);color:#92400e;border:1px solid rgba(251,191,36,0.3)}
+.market-body h4{font-size:0.9rem;font-weight:700;margin-bottom:3px;line-height:1.3}
+.market-body p{font-size:0.78rem;color:var(--muted);margin-bottom:10px}
+.market-footer{display:flex;align-items:center;justify-content:space-between}
+.price-wrap{}
+.price{font-size:1rem;font-weight:800;color:#404E3B}
+.price-old{font-size:0.75rem;color:var(--muted);text-decoration:line-through;margin-left:4px}
+.btn-buy{
+  background:var(--ink);color:#fff;border:none;
+  padding:7px 16px;border-radius:9px;font-size:0.78rem;font-weight:700;
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;
+}
+.btn-buy:hover{background:#7B9669;transform:scale(1.04)}
+
+/* Student Made badge on cards */
+.student-made-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:100px;
+  background:rgba(134,239,172,0.15);color:#166534;border:1px solid rgba(134,239,172,0.3);
+  margin-left:6px;vertical-align:middle;letter-spacing:0.3px;
+}
+
+/* ─── EARN SECTION ─── */
+.earn-sec{background:#fff}
+.earn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
+.earn-card{
+  border-radius:var(--r);border:1.5px solid var(--border);
+  padding:2rem 1.75rem;transition:all 0.3s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.earn-card::before{
+  content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s;
+}
+.earn-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.09)}
+.earn-card:hover::before{opacity:1}
+.earn-icon{font-size:2.2rem;margin-bottom:1.2rem}
+.earn-card h3{font-weight:800;font-size:1.05rem;margin-bottom:0.5rem}
+.earn-card p{font-size:0.84rem;color:var(--muted);line-height:1.6}
+.earn-amount{
+  display:inline-block;margin-top:1rem;
+  font-size:0.8rem;font-weight:700;padding:4px 12px;border-radius:100px;
+}
+
+/* ─── BOOKS ─── */
+.books-sec{background:var(--bg)}
+.books-layout{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;margin-top:3rem}
+.books-list{display:flex;flex-direction:column;gap:10px}
+.book-card{
+  display:flex;align-items:center;gap:12px;
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);
+  overflow:hidden;transition:all 0.2s;cursor:pointer;padding-right:14px;
+}
+.book-card:hover{border-color:#7B9669;box-shadow:0 4px 20px rgba(123,150,105,0.12)}
+.book-img{width:68px;height:82px;object-fit:cover;flex-shrink:0}
+.book-info{flex:1;min-width:0;padding:10px 0}
+.book-info h4{font-size:0.88rem;font-weight:700;margin-bottom:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.book-info p{font-size:0.75rem;color:var(--muted)}
+.btn-trade{
+  background:#6C8480;color:#fff;border:none;
+  padding:6px 14px;border-radius:8px;font-size:0.75rem;font-weight:700;
+  cursor:pointer;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;
+}
+.btn-trade:hover{background:#404E3B}
+
+.post-form{
+  background:linear-gradient(135deg,#D6E0CF,#BAC8B1);
+  border:1.5px solid rgba(64,78,59,0.15);
+  border-radius:var(--r);padding:2rem;
+  position:sticky;top:80px;
+}
+.post-form h3{font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem;margin-bottom:1.4rem;color:var(--ink)}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:0.8rem;font-weight:700;margin-bottom:5px;color:var(--ink2)}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:10px 14px;border:1.5px solid rgba(0,0,0,0.1);
+  border-radius:10px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.88rem;color:var(--ink);outline:none;transition:border 0.15s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#7B9669}
+.form-group textarea{resize:vertical;min-height:75px}
+.btn-post{
+  width:100%;padding:13px;background:#7B9669;color:#fff;border:none;
+  border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;
+  font-weight:700;cursor:pointer;transition:all 0.2s;
+}
+.btn-post:hover{background:#404E3B;transform:translateY(-2px);box-shadow:0 8px 20px rgba(64,78,59,0.3)}
+
+/* ─── TOOLS ─── */
+.tools-sec{background:var(--bg)}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;margin-top:2.5rem}
+.tool-card{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--r);
+  padding:1.6rem 1.25rem;text-align:center;
+  transition:all 0.25s;cursor:pointer;text-decoration:none;color:inherit;display:block;
+}
+.tool-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,0.09)}
+.tool-icon{
+  width:60px;height:60px;border-radius:18px;
+  margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;transition:transform 0.3s;
+}
+.tool-card:hover .tool-icon{transform:scale(1.12) rotate(-5deg)}
+.tool-name{font-weight:800;font-size:0.95rem;margin-bottom:4px}
+.tool-desc{font-size:0.78rem;color:var(--muted);line-height:1.5}
+
+/* ─── TESTIMONIALS ─── */
+.testi-sec{background:#fff}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+.testi-card{
+  background:#F0F2EE;border:1.5px solid var(--border);border-radius:var(--r);
+  padding:1.5rem;transition:transform 0.2s;
+}
+.testi-card:hover{transform:translateY(-4px)}
+.stars{color:#7B9669;font-size:0.9rem;margin-bottom:0.75rem}
+.testi-text{font-size:0.88rem;line-height:1.65;color:var(--ink2);margin-bottom:1.25rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-author img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.testi-name{font-weight:700;font-size:0.85rem}
+.testi-role{font-size:0.75rem;color:var(--muted)}
+
+/* ─── COMMUNITY ─── */
+.community-sec{
+  background:linear-gradient(135deg,#2A3528 0%,#404E3B 50%,#354533 100%);
+  position:relative;overflow:hidden;
+}
+.community-sec::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.community-inner{position:relative;z-index:1;text-align:center;max-width:760px;margin:0 auto}
+.community-sec .sec-label{color:rgba(255,255,255,0.5)}
+.community-sec .sec-title{color:#fff}
+.c-sub{font-size:1.05rem;color:rgba(255,255,255,0.6);line-height:1.7;margin:0 auto 3rem;max-width:520px}
+.c-stats{display:flex;justify-content:center;gap:3.5rem;margin-bottom:3rem;flex-wrap:wrap}
+.c-stat .n{font-family:'Fraunces',serif;font-size:2.8rem;font-weight:900;color:#fff;line-height:1}
+.c-stat .l{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-top:4px}
+.c-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-white{background:#fff;color:var(--ink);padding:14px 32px;border-radius:12px;font-size:1rem;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-white:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(186,200,177,0.3)}
+.btn-ghost-w{background:rgba(255,255,255,0.1);color:#fff;padding:14px 32px;border-radius:12px;font-size:1rem;font-weight:600;border:1px solid rgba(255,255,255,0.2);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-ghost-w:hover{background:rgba(255,255,255,0.18)}
+
+/* ─── FOOTER ─── */
+<footer>
+  background:#2A3528;color:rgba(255,255,255,0.7);padding:4rem 2rem 2rem}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand .logo{color:#fff}
+.footer-brand p{font-size:0.85rem;color:rgba(255,255,255,0.45);margin-top:0.8rem;line-height:1.65;max-width:240px}
+.footer-col h5{font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:1rem;letter-spacing:0.3px}
+.footer-col a{display:block;font-size:0.82rem;color:rgba(255,255,255,0.45);text-decoration:none;margin-bottom:0.6rem;transition:color 0.15s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;flex-wrap:wrap;gap:1rem}
+
+/* ─── SCROLL REVEAL ─── */
+.sr{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.sr.vis{opacity:1;transform:translateY(0)}
+.sr-delay-1{transition-delay:0.1s}
+.sr-delay-2{transition-delay:0.2s}
+.sr-delay-3{transition-delay:0.3s}
+.sr-delay-4{transition-delay:0.4s}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-grid{grid-template-columns:1fr;gap:2rem}
+  .hero-right{display:none}
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links,.nav-btns{display:none}
+  .hamburger{display:block}
+  .feat-grid{grid-template-columns:1fr}
+  .learn-layout,.books-layout{grid-template-columns:1fr}
+  .training-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .post-form{position:static}
+  .c-stats{gap:2rem}
+  .earn-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .footer-grid{grid-template-columns:1fr}
+  .hero h1{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── OPENING ANIMATION OVERLAY ─── -->
+<div id="intro-overlay" aria-hidden="true">
+  <div class="intro-particles" id="intro-particles"></div>
+  <div class="intro-logo">
+    <div class="intro-badge">F</div>
+    <div class="intro-wordmark">Fixely</div>
+  </div>
+  <p class="intro-tagline">Your student platform</p>
+  <div class="intro-words">
+    <span class="intro-word w1">📚 Learn</span>
+    <span class="intro-word w2">🌱 Grow</span>
+    <span class="intro-word w3">💰 Earn</span>
+  </div>
+  <div class="intro-progress">
+    <div class="intro-bar"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <span class="logo-badge">F</span>Fixely
+  </a>
+  <div class="nav-links">
+    <a href="#learn">Learn</a>
+    <a href="#training">Training</a>
+    <a href="#earn">Earn</a>
+    <a href="#marketplace">Marketplace</a>
+    <a href="#books">Books</a>
+    <a href="#tools">Tools</a>
+    <a href="#community">Community</a>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-ghost-sm">Log In</button>
+    <button class="btn-nav">Sign Up Free</button>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <svg width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-pill">
+        <span class="pill-dot"></span>
+        <span>🎓 Built for students, by students</span>
+      </div>
+      <h1>Everything you need<br>to <em>learn, grow</em><br>&amp; earn.</h1>
+      <p class="hero-desc">Fixely is your all-in-one student platform — learn new skills, grow your potential, and earn from what you create. Join 1,000+ students thriving today.</p>
+      <div class="lge-badges">
+        <span class="lge-badge learn">📚 Learn new skills daily</span>
+        <span class="lge-badge grow">🌱 Grow your potential</span>
+        <span class="lge-badge earn">💰 Earn from your work</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#learn" class="btn-hero">Start Learning Free</a>
+        <a href="#features" class="btn-hero-outline">Explore Features</a>
+      </div>
+      <div class="hero-trust">
+        <div class="avatars">
+          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face" alt="Student">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face" alt="Student">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Student">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" alt="Student">
+        </div>
+        <div class="trust-text">
+          <strong>1,000+ students</strong>
+          already learning, growing &amp; earning on Fixely
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=320&fit=crop" alt="Students studying" class="hero-card-img">
+        <div class="hero-card-body">
+          <span class="hero-card-tag tag-blue">LEARNING</span>
+          <h3>1,200+ Courses &amp; Guides</h3>
+          <p>Science, Tech, Business, Arts &amp; more</p>
+          <div class="hero-card-row">
+            <div class="mini-stat"><div>1K+</div><div>Students</div></div>
+            <div class="mini-stat"><div>4.7★</div><div>Rating</div></div>
+            <div class="mini-stat"><div>Free</div><div>Access</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="hero-card">
+          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=140&fit=crop" alt="Books" class="hero-card-img">
+          <div class="hero-card-body" style="padding:0.9rem">
+            <span class="hero-card-tag tag-green">TRADE</span>
+            <h3 style="font-size:0.85rem">Book Trading</h3>
+            <p style="font-size:0.72rem">Free book swaps</p>
+          </div>
+        </div>
+        <div class="hero-card">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=140&fit=crop" alt="Marketplace" class="hero-card-img">
+          <div class="hero-card-body" style="padding:0.9rem">
+            <span class="hero-card-tag tag-orange">EARN</span>
+            <h3 style="font-size:0.85rem">Sell Your Work</h3>
+            <p style="font-size:0.72rem">640+ listings</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features-sec" id="features">
+  <div class="inner">
+    <div class="sec-label" style="color:var(--blue)">What's on Fixely</div>
+    <h2 class="sec-title">Learn. Grow. Earn.<br>All in one place.</h2>
+    <div class="feat-grid">
+      <a href="#learn" class="feat-card sr" style="background:#D6E0CF">
+        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=250&fit=crop" alt="Learning" class="feat-img">
+        <div class="feat-body" style="background:#D6E0CF">
+          <div class="feat-icon-wrap" style="background:#404E3B">📚</div>
+          <div class="feat-title">Learn New Skills</div>
+          <div class="feat-desc">280+ student-friendly tutorials, guides, and courses across all major subjects.</div>
+          <a href="#learn" class="feat-link" style="color:var(--blue)">Browse Courses →</a>
+        </div>
+      </a>
+      <a href="#training" class="feat-card sr sr-delay-1" style="background:var(--green-light)">
+        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=250&fit=crop" alt="Training" class="feat-img">
+        <div class="feat-body" style="background:var(--green-light)">
+          <div class="feat-icon-wrap" style="background:var(--green)">🎯</div>
+          <div class="feat-title">Training Programs</div>
+          <div class="feat-desc">Structured skill paths with real certificates — coding, design, marketing &amp; more.</div>
+          <a href="#training" class="feat-link" style="color:var(--green)">Enrol Now →</a>
+        </div>
+      </a>
+      <a href="#earn" class="feat-card sr sr-delay-2" style="background:var(--orange-light)">
+        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=250&fit=crop" alt="Earn" class="feat-img">
+        <div class="feat-body" style="background:var(--orange-light)">
+          <div class="feat-icon-wrap" style="background:var(--orange)">💰</div>
+          <div class="feat-title">Earn from Skills</div>
+          <div class="feat-desc">Sell your notes, crafts, designs and services. Turn your student skills into real income.</div>
+          <a href="#earn" class="feat-link" style="color:var(--orange)">Start Earning →</a>
+        </div>
+      </a>
+      <a href="#books" class="feat-card sr" style="background:var(--purple-light)">
+        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=250&fit=crop" alt="Books" class="feat-img">
+        <div class="feat-body" style="background:var(--purple-light)">
+          <div class="feat-icon-wrap" style="background:var(--purple)">📖</div>
+          <div class="feat-title">Trade Books</div>
+          <div class="feat-desc">Swap textbooks and reference books with nearby students — completely free.</div>
+          <a href="#books" class="feat-link" style="color:var(--purple)">Trade Now →</a>
+        </div>
+      </a>
+      <a href="#tools" class="feat-card sr sr-delay-1" style="background:var(--teal-light)">
+        <img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=600&h=250&fit=crop" alt="Tools" class="feat-img">
+        <div class="feat-body" style="background:var(--teal-light)">
+          <div class="feat-icon-wrap" style="background:var(--teal)">🛠️</div>
+          <div class="feat-title">Student Tools</div>
+          <div class="feat-desc">GPA calculator, timetable planner, assignment tracker, Pomodoro timer &amp; more.</div>
+          <a href="#tools" class="feat-link" style="color:var(--teal)">Use Tools →</a>
+        </div>
+      </a>
+      <a href="#community" class="feat-card sr sr-delay-2" style="background:var(--pink-light)">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=250&fit=crop" alt="Community" class="feat-img">
+        <div class="feat-body" style="background:var(--pink-light)">
+          <div class="feat-icon-wrap" style="background:var(--pink)">🤝</div>
+          <div class="feat-title">Community</div>
+          <div class="feat-desc">Connect with 1,000+ students. Find study partners, share notes, ask questions.</div>
+          <a href="#community" class="feat-link" style="color:var(--pink)">Join Now →</a>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- LEARN -->
+<section class="section learn-sec" id="learn">
+  <div class="inner">
+    <div class="learn-layout">
+      <div>
+        <div class="sec-label" style="color:var(--blue)">Learn</div>
+        <h2 class="sec-title">Learn at your<br>own pace.</h2>
+        <p class="sec-sub" style="margin-bottom:2rem">Thousands of student-friendly lessons on topics that matter — from exam prep to future careers. Every skill you learn is a step toward earning.</p>
+        <div class="subject-pills">
+          <button class="pill active">All</button>
+          <button class="pill">💻 Tech</button>
+          <button class="pill">🔬 Science</button>
+          <button class="pill">📊 Business</button>
+          <button class="pill">🎨 Arts</button>
+          <button class="pill">🗣️ Languages</button>
+        </div>
+        <div class="search-row">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search courses, topics, skills…">
+        </div>
+        <a href="#" class="btn-primary">Browse All 280+ Courses</a>
+      </div>
+      <div class="course-stack sr">
+        <div class="course-card">
+          <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=160&h=100&fit=crop" alt="Coding" class="course-thumb-img">
+          <div class="course-info">
+            <h4>Python for Beginners</h4>
+            <p>12 lessons · Beginner</p>
+            <div class="course-bar"><div class="course-fill" style="width:75%;background:var(--blue)"></div></div>
+          </div>
+          <div class="course-pct" style="color:var(--blue)">75%</div>
+        </div>
+        <div class="course-card">
+          <img src="https://images.unsplash.com/photo-1532094349884-543559c98793?w=160&h=100&fit=crop" alt="Chemistry" class="course-thumb-img">
+          <div class="course-info">
+            <h4>Organic Chemistry Basics</h4>
+            <p>18 lessons · Intermediate</p>
+            <div class="course-bar"><div class="course-fill" style="width:42%;background:var(--orange)"></div></div>
+          </div>
+          <div class="course-pct" style="color:var(--orange)">42%</div>
+        </div>
+        <div class="course-card">
+          <img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?w=160&h=100&fit=crop" alt="Excel" class="course-thumb-img">
+          <div class="course-info">
+            <h4>Excel &amp; Data Analysis</h4>
+            <p>8 lessons · All levels</p>
+            <div class="course-bar"><div class="course-fill" style="width:100%;background:var(--green)"></div></div>
+          </div>
+          <div class="course-pct" style="color:var(--green)">✓</div>
+        </div>
+        <div class="course-card">
+          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=160&h=100&fit=crop" alt="Writing" class="course-thumb-img">
+          <div class="course-info">
+            <h4>Essay Writing Mastery</h4>
+            <p>10 lessons · All levels</p>
+            <div class="course-bar"><div class="course-fill" style="width:20%;background:var(--purple)"></div></div>
+          </div>
+          <div class="course-pct" style="color:var(--purple)">20%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section class="section training-sec" id="training">
+  <div class="inner">
+    <div class="sec-label" style="color:var(--green)">Training Programs</div>
+    <h2 class="sec-title">Earn real certificates.<br>Stand out from the crowd.</h2>
+    <p class="sec-sub">Career-focused training programs with structured learning paths and verified certificates.</p>
+    <div class="training-grid">
+      <div class="training-card sr">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&h=250&fit=crop" alt="Web Dev" class="training-img">
+        <div class="training-body">
+          <div class="training-tags">
+            <span class="training-tag" style="background:var(--blue-light);color:var(--blue)">WEB DEV</span>
+            <span class="training-tag" style="background:var(--green-light);color:var(--green)">CERTIFICATE</span>
+          </div>
+          <h3>Web Development</h3>
+          <p>HTML, CSS, JavaScript &amp; React — build your first professional website from scratch.</p>
+          <div class="training-meta"><span>⏱ 8 weeks</span><span>👥 340 enrolled</span></div>
+          <button class="enrol-btn" style="background:var(--blue);color:#fff">Enrol Now — Free</button>
+        </div>
+      </div>
+      <div class="training-card sr sr-delay-1">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=250&fit=crop" alt="Marketing" class="training-img">
+        <div class="training-body">
+          <div class="training-tags">
+            <span class="training-tag" style="background:var(--orange-light);color:var(--orange)">MARKETING</span>
+            <span class="training-tag" style="background:var(--green-light);color:var(--green)">CERTIFICATE</span>
+          </div>
+          <h3>Digital Marketing</h3>
+          <p>SEO, social media strategy, content &amp; analytics — master modern marketing.</p>
+          <div class="training-meta"><span>⏱ 6 weeks</span><span>👥 210 enrolled</span></div>
+          <button class="enrol-btn" style="background:var(--orange);color:#fff">Enrol Now — Free</button>
+        </div>
+      </div>
+      <div class="training-card sr sr-delay-2">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=250&fit=crop" alt="Design" class="training-img">
+        <div class="training-body">
+          <div class="training-tags">
+            <span class="training-tag" style="background:var(--pink-light);color:var(--pink)">DESIGN</span>
+            <span class="training-tag" style="background:var(--green-light);color:var(--green)">CERTIFICATE</span>
+          </div>
+          <h3>Graphic Design</h3>
+          <p>From Canva to Figma — learn visual design and create professional-quality work.</p>
+          <div class="training-meta"><span>⏱ 5 weeks</span><span>👥 480 enrolled</span></div>
+          <button class="enrol-btn" style="background:var(--pink);color:#fff">Enrol Now — Free</button>
+        </div>
+      </div>
+      <div class="training-card sr sr-delay-3">
+        <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=500&h=250&fit=crop" alt="Speaking" class="training-img">
+        <div class="training-body">
+          <div class="training-tags">
+            <span class="training-tag" style="background:var(--purple-light);color:var(--purple)">SOFT SKILLS</span>
+            <span class="training-tag" style="background:var(--green-light);color:var(--green)">CERTIFICATE</span>
+          </div>
+          <h3>Public Speaking</h3>
+          <p>Overcome nerves and deliver presentations that leave a lasting impact.</p>
+          <div class="training-meta"><span>⏱ 4 weeks</span><span>👥 120 enrolled</span></div>
+          <button class="enrol-btn" style="background:var(--purple);color:#fff">Enrol Now — Free</button>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="#" class="btn-outline">View All 42 Programs</a>
+    </div>
+  </div>
+</section>
+
+<!-- EARN -->
+<section class="section earn-sec" id="earn">
+  <div class="inner">
+    <div class="sec-label" style="color:var(--green)">Earn</div>
+    <h2 class="sec-title">Turn your skills<br>into real income.</h2>
+    <p class="sec-sub">Fixely helps students earn from what they already know and create. Your knowledge is valuable — start monetising it today.</p>
+    <div class="earn-grid">
+      <div class="earn-card sr" style="background:#F0F7EC;border-color:#D6E0CF">
+        <div class="earn-icon">📝</div>
+        <h3>Sell Study Notes</h3>
+        <p>Turn your handwritten notes, summaries and PDFs into income. Set your price and earn whenever another student buys.</p>
+        <span class="earn-amount" style="background:#D6E0CF;color:#2A3528">Avg. Rs 150–500/set</span>
+      </div>
+      <div class="earn-card sr sr-delay-1" style="background:#EEF4F3;border-color:#D4DEDD">
+        <div class="earn-icon">🎨</div>
+        <h3>Sell Student Crafts</h3>
+        <p>Handmade bookmarks, greeting cards, art prints, crochet items — list your creations in the marketplace and reach local buyers.</p>
+        <span class="earn-amount" style="background:#D4DEDD;color:#2A3528">Your price, your profit</span>
+      </div>
+      <div class="earn-card sr sr-delay-2" style="background:#F4F5F2;border-color:#BAC8B1">
+        <div class="earn-icon">💻</div>
+        <h3>Freelance Services</h3>
+        <p>Offer tutoring, coding help, graphic design, content writing, or photo editing to fellow students and local clients.</p>
+        <span class="earn-amount" style="background:#BAC8B1;color:#2A3528">Rs 200–2,000/project</span>
+      </div>
+      <div class="earn-card sr sr-delay-3" style="background:#FFFBEB;border-color:rgba(251,191,36,0.3)">
+        <div class="earn-icon">🛒</div>
+        <h3>Resell Smart</h3>
+        <p>List used books, electronics and study gear you no longer need. Make money from things you already own.</p>
+        <span class="earn-amount" style="background:rgba(251,191,36,0.2);color:#92400e">List for free, earn instantly</span>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="#marketplace" class="btn-primary" style="margin-right:12px">Start Selling</a>
+      <a href="#" class="btn-outline">Learn How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETPLACE -->
+<section class="section market-sec" id="marketplace">
+  <div class="inner">
+    <div class="market-header">
+      <div>
+        <div class="sec-label" style="color:var(--orange)">Marketplace</div>
+        <h2 class="sec-title">Student-made &amp; student-sold.</h2>
+        <div class="filter-pills">
+          <button class="pill active">All Items</button>
+          <button class="pill">🎨 Student Crafts</button>
+          <button class="pill">📐 Stationery</button>
+          <button class="pill">💻 Electronics</button>
+          <button class="pill">🔭 Lab Gear</button>
+          <button class="pill">📝 Notes &amp; PDFs</button>
+        </div>
+      </div>
+      <a href="#" class="btn-primary" style="white-space:nowrap;align-self:flex-start;margin-top:1rem">+ List an Item</a>
+    </div>
+    <div class="market-grid">
+
+      <!-- Student-made products -->
+      <div class="market-card sr">
+        <img src="https://images.unsplash.com/photo-1586861203927-800a5acdcc4d?w=400&h=260&fit=crop" alt="Handmade Bookmarks" class="market-img">
+        <div class="market-body">
+          <span class="cond-badge cond-handmade">✨ Handmade</span>
+          <h4>Pressed Flower Bookmarks <span class="student-made-tag">🎓 Student Made</span></h4>
+          <p>Set of 5 — by Rina Shrestha, Class 11, Pokhara</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 250</span></div>
+            <button class="btn-buy">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="market-card sr sr-delay-1">
+        <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&h=260&fit=crop" alt="Study Notes PDF" class="market-img">
+        <div class="market-body">
+          <span class="cond-badge cond-new">Digital</span>
+          <h4>Grade 12 Physics Notes PDF <span class="student-made-tag">🎓 Student Made</span></h4>
+          <p>Full syllabus, 80 pages — by Aayush Karki, BIT 1st Year</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 150</span></div>
+            <button class="btn-buy">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="market-card sr sr-delay-2">
+        <img src="https://images.unsplash.com/photo-1619451683755-c15f8bdfd5e4?w=400&h=260&fit=crop" alt="Crochet Items" class="market-img">
+        <div class="market-body">
+          <span class="cond-badge cond-handmade">✨ Handmade</span>
+          <h4>Crochet Pencil Case <span class="student-made-tag">🎓 Student Made</span></h4>
+          <p>Custom colours available — by Sita Tamang, BBA 2nd Year, Kathmandu</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 380</span></div>
+            <button class="btn-buy">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="market-card sr sr-delay-3">
+        <img src="https://images.unsplash.com/photo-1516981442399-a91139e20ff8?w=400&h=260&fit=crop" alt="Greeting Cards" class="market-img">
+        <div class="market-body">
+          <span class="cond-badge cond-handmade">✨ Handmade</span>
+          <h4>Hand-drawn Greeting Cards <span class="student-made-tag">🎓 Student Made</span></h4>
+          <p>Pack of 4 — watercolour art by Priya Gurung, Fine Arts, Lalitpur</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 200</span></div>
+            <button class="btn-buy">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="market-card sr">
+        <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=260&fit=crop" alt="Calculator" class="market-img">
+        <div class="market-body">
+          <span class="cond-badge cond-good">Good</span>
+          <h4>Casio FX-991ES Calculator</h4>
+          <p>Used for 1 semester, fully working</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 1,200</span><span class="price-old">Rs 2,000</span></div>
+            <button class="btn-buy">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="market-card sr sr-delay-1">
+        <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=400&h=260&fit=crop" alt="Logo Design" class="market-img">
+        <div class="market-body">
+          <span class="cond-badge cond-handmade">✨ Service</span>
+          <h4>Logo Design — 2 Concepts <span class="student-made-tag">🎓 Student Made</span></h4>
+          <p>Delivered in 3 days — by Bikal Thapa, BIT 3rd Year, Butwal</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 600</span></div>
+            <button class="btn-buy">Order Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="market-card sr sr-delay-2">
+        <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=260&fit=crop" alt="Notebook" class="market-img">
+        <div class="market-body">
+          <span class="cond-badge cond-new">New</span>
+          <h4>Geometry &amp; Drafting Set</h4>
+          <p>Brand new, still in packaging</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 350</span></div>
+            <button class="btn-buy">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="market-card sr sr-delay-3">
+        <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=260&fit=crop" alt="Resin Art" class="market-img" style="object-position:center">
+        <div class="market-body">
+          <span class="cond-badge cond-handmade">✨ Handmade</span>
+          <h4>Resin Art Keychain <span class="student-made-tag">🎓 Student Made</span></h4>
+          <p>Dried flowers inside, custom text — by Anisha Rai, Class 12, Pokhara</p>
+          <div class="market-footer">
+            <div class="price-wrap"><span class="price">Rs 180</span></div>
+            <button class="btn-buy">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <a href="#" class="btn-outline">View All 640+ Listings →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section class="section books-sec" id="books">
+  <div class="inner">
+    <div class="sec-label" style="color:var(--purple)">Book Trading</div>
+    <h2 class="sec-title">Trade books for free.<br>Zero cost. Zero waste.</h2>
+    <div class="books-layout">
+      <div>
+        <div class="subject-pills" style="margin-bottom:1.5rem">
+          <button class="pill active">Available</button>
+          <button class="pill">Wanted</button>
+          <button class="pill">My Listings</button>
+        </div>
+        <div class="books-list">
+          <div class="book-card sr">
+            <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=140&h=170&fit=crop" alt="Book" class="book-img">
+            <div class="book-info">
+              <h4>Physics — Halliday &amp; Resnick</h4>
+              <p>Grade 11–12 · Good condition · Pokhara</p>
+            </div>
+            <button class="btn-trade">Trade</button>
+          </div>
+          <div class="book-card sr sr-delay-1">
+            <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=140&h=170&fit=crop" alt="Book" class="book-img">
+            <div class="book-info">
+              <h4>Biology — NCERT Class 12</h4>
+              <p>Grade 12 · Very Good · Kathmandu</p>
+            </div>
+            <button class="btn-trade">Trade</button>
+          </div>
+          <div class="book-card sr sr-delay-2">
+            <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=140&h=170&fit=crop" alt="Book" class="book-img">
+            <div class="book-info">
+              <h4>Introduction to Algorithms</h4>
+              <p>BCA / BIT · Good · Lalitpur</p>
+            </div>
+            <button class="btn-trade">Trade</button>
+          </div>
+          <div class="book-card sr sr-delay-3">
+            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=140&h=170&fit=crop" alt="Book" class="book-img">
+            <div class="book-info">
+              <h4>Business Studies — Class 12</h4>
+              <p>Grade 12 · Fair · Butwal</p>
+            </div>
+            <button class="btn-trade">Trade</button>
+          </div>
+        </div>
+      </div>
+      <div class="post-form sr">
+        <h3>📚 List a Book to Trade</h3>
+        <div class="form-group">
+          <label>Book Title</label>
+          <input type="text" placeholder="e.g. Physics Vol. 1">
+        </div>
+        <div class="form-group">
+          <label>Subject / Level</label>
+          <input type="text" placeholder="e.g. Grade 12 / BCA">
+        </div>
+        <div class="form-group">
+          <label>Condition</label>
+          <select><option>New</option><option>Very Good</option><option>Good</option><option>Fair</option></select>
+        </div>
+        <div class="form-group">
+          <label>Your Location</label>
+          <input type="text" placeholder="City / District">
+        </div>
+        <div class="form-group">
+          <label>What do you want in return?</label>
+          <textarea placeholder="e.g. Any Grade 12 Chemistry textbook…"></textarea>
+        </div>
+        <button class="btn-post">Post Listing</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="section tools-sec" id="tools">
+  <div class="inner">
+    <div class="sec-label" style="color:var(--teal)">Student Tools</div>
+    <h2 class="sec-title">Free tools for<br>every student.</h2>
+    <p class="sec-sub">Practical tools that keep you organised, focused and ahead of deadlines — all free, forever.</p>
+    <div class="tools-grid">
+      <a href="#" class="tool-card sr">
+        <div class="tool-icon" style="background:var(--blue-light)">🧮</div>
+        <div class="tool-name">GPA Calculator</div>
+        <p class="tool-desc">Instantly calculate your GPA, CGPA, or percentage.</p>
+      </a>
+      <a href="#" class="tool-card sr sr-delay-1">
+        <div class="tool-icon" style="background:var(--green-light)">📅</div>
+        <div class="tool-name">Timetable Maker</div>
+        <p class="tool-desc">Build a weekly class and study schedule visually.</p>
+      </a>
+      <a href="#" class="tool-card sr sr-delay-2">
+        <div class="tool-icon" style="background:var(--orange-light)">✅</div>
+        <div class="tool-name">Assignment Tracker</div>
+        <p class="tool-desc">Never miss a deadline with smart reminders.</p>
+      </a>
+      <a href="#" class="tool-card sr">
+        <div class="tool-icon" style="background:var(--purple-light)">📝</div>
+        <div class="tool-name">Note Organiser</div>
+        <p class="tool-desc">Save and tag notes by subject and topic.</p>
+      </a>
+      <a href="#" class="tool-card sr sr-delay-1">
+        <div class="tool-icon" style="background:var(--pink-light)">⏱️</div>
+        <div class="tool-name">Pomodoro Timer</div>
+        <p class="tool-desc">Study in powerful focused bursts of 25 minutes.</p>
+      </a>
+      <a href="#" class="tool-card sr sr-delay-2">
+        <div class="tool-icon" style="background:var(--yellow-light)">📊</div>
+        <div class="tool-name">Marks Analyser</div>
+        <p class="tool-desc">Track your scores and spot areas for improvement.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testi-sec">
+  <div class="inner">
+    <div class="sec-label" style="color:var(--yellow)">Student Love</div>
+    <h2 class="sec-title">What students say<br>about Fixely.</h2>
+    <div class="testi-grid">
+      <div class="testi-card sr">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"I listed my handmade bookmarks and sold out within 2 days! The earn feature is brilliant — I've now made over Rs 3,000 this month just from my crafts."</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" alt="Student">
+          <div><div class="testi-name">Arjun Shrestha</div><div class="testi-role">BCA Student, Pokhara</div></div>
+        </div>
+      </div>
+      <div class="testi-card sr sr-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Completed the Web Development training and got my certificate in 8 weeks. Used it in my CV, landed my first internship — and now I do freelance logo design through Fixely!"</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Student">
+          <div><div class="testi-name">Priya Gurung</div><div class="testi-role">+2 Science, Kathmandu</div></div>
+        </div>
+      </div>
+      <div class="testi-card sr sr-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"The GPA calculator and assignment tracker keep me so organised. And I sold my Grade 11 notes as PDFs — made Rs 800 in a week. Fixely genuinely changed how I study and earn."</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face" alt="Student">
+          <div><div class="testi-name">Bikal Thapa</div><div class="testi-role">BIT Student, Lalitpur</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="section community-sec" id="community">
+  <div class="community-inner">
+    <div class="sec-label">Community</div>
+    <h2 class="sec-title" style="font-size:clamp(2rem,4vw,3.2rem)">You're not<br>studying alone.</h2>
+    <p class="c-sub">Join 1,000+ students sharing notes, asking questions, finding study partners and helping each other learn, grow and earn every day.</p>
+    <div class="c-stats">
+      <div class="c-stat"><div class="n">1,000+</div><div class="l">Active Students</div></div>
+      <div class="c-stat"><div class="n">38</div><div class="l">Subject Groups</div></div>
+      <div class="c-stat"><div class="n">240+</div><div class="l">Daily Discussions</div></div>
+      <div class="c-stat"><div class="n">8</div><div class="l">Countries</div></div>
+    </div>
+    <div class="c-actions">
+      <a href="#" class="btn-white">Join the Community</a>
+      <a href="#" class="btn-ghost-w">Find Study Partners</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo"><span class="logo-badge">F</span>Fixely</a>
+        <p>The all-in-one student platform. Learn, grow and earn — all in one place, for free.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Learn &amp; Grow</h5>
+        <a href="#">Browse Courses</a>
+        <a href="#">Training Programs</a>
+        <a href="#">Certifications</a>
+        <a href="#">Find a Tutor</a>
+      </div>
+      <div class="footer-col">
+        <h5>Earn &amp; Trade</h5>
+        <a href="#">Sell Your Work</a>
+        <a href="#">Buy Materials</a>
+        <a href="#">Trade Books</a>
+        <a href="#">Post a Listing</a>
+      </div>
+      <div class="footer-col">
+        <h5>Fixely</h5>
+        <a href="#">About Us</a>
+        <a href="#">Blog</a>
+        <a href="#">Help Centre</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fixely · Made with ❤️ for students — Learn. Grow. Earn.</span>
+      <span>Free to use · No ads · Student-first</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── INTRO ANIMATION ───
+(function(){
+  const overlay = document.getElementById('intro-overlay');
+  const particles = document.getElementById('intro-particles');
+
+  // Generate floating particles
+  const colors = ['#7B9669','#BAC8B1','#6C8480','#4ade80','#86efac'];
+  for(let i = 0; i < 22; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*3+2}s;
+      animation-delay:${Math.random()*1.5}s;
+    `;
+    particles.appendChild(p);
+  }
+
+  // Hide overlay after animation completes
+  setTimeout(()=>{
+    overlay.style.pointerEvents='none';
+    setTimeout(()=>{ overlay.classList.add('hidden'); },700);
+  }, 3200);
+})();
+
+// ─── NAV SCROLL SHADOW ───
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40)
+})
+
+// ─── SCROLL REVEAL ───
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})
+},{threshold:0.08})
+document.querySelectorAll('.sr').forEach(el=>obs.observe(el))
+
+// ─── SMOOTH SCROLL ───
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href')
+    if(id==='#')return
+    const el=document.querySelector(id)
+    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'})}
+  })
+})
+
+// ─── TABS / PILLS ───
+document.querySelectorAll('.subject-pills,.filter-pills,.training-tags').forEach(wrap=>{
+  wrap.querySelectorAll('.pill,.tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      wrap.querySelectorAll('.pill,.tab').forEach(b=>b.classList.remove('active'))
+      btn.classList.add('active')
+    })
+  })
+})
+
+// ─── IMAGE FALLBACK ───
+document.querySelectorAll('img').forEach(img=>{
+  img.addEventListener('error',function(){
+    this.style.background='linear-gradient(135deg,#BAC8B1,#D6E0CF)'
+    this.style.objectFit='none'
+    this.removeAttribute('src')
+  })
+})
+</script>
+</body>
+</html>
